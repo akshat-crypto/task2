@@ -1,1 +1,8 @@
-hloo this is the welcome page
+<pre>
+<?php
+
+print `ifconfig`;
+
+print `free -m`;
+
+?>
