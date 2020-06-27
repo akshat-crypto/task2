@@ -1,0 +1,56 @@
+JOB1
+https://github.com/akshat-crypto/task2.git
+sudo cp -rfv * /root/mlops/task2_code
+
+JOB2
+
+if sudo ls /root/mlops/task2_code | grep .php
+then
+    sudo docker run -dt --name phpenv -p 3001:80 -v /root/mlops/task2_code:/var/www/html vimal13/apache-webserver-php
+    sudo docker exec -t phpenv php --file=/var/www/html/*
+    if sudo docker exec -t phpenv php --file=/var/www/html/*
+    then 
+    echo exit 1
+    else 
+    echo exit 0
+    fi
+elif sudo ls /root/mlops/task2_code | grep .html
+then
+    sudo docker run -dt --name htmlenv -p 3000:80 -v /root/mlops/task2_code:/var/www/html apache
+    status=$(sudo curl -o /dev/null -w"%{http_code}" -s 192.168.43.93:3000)
+    if [[ $status == 200 ]]
+    then 
+    echo "page is running successfully on server"
+    echo exit 1
+    else
+    echo "page is not running on the server"
+    echo exit 0
+    fi
+else 
+    echo "not defined file"
+fi
+
+JOB3
+echo  "THIS JOB IS TO SEND THE EMAIL TO THE DEVELOPER THAT THEIR IS SOME ERROR IN THE CODE"
+
+JOB4
+if sudo ls /root/mlops/task2_code | grep .php
+then
+	s=$(sudo docker ps -a | grep phpenv)
+	if [[ $s == 1 ]]
+	then 
+    	sudo docker run -dt --name phpenv -p 3001:80 -v /root/mlops/task2_code:/var/www/html vimal13/apache-webserver-php
+    	sudo docker exec -t phpenv php --file=/var/www/html/*
+	else
+    	echo "php container is running"
+	fi
+else
+	status=$(sudo docker ps -a | grep htmlenv)
+    if [[ $s == 1 ]]
+    then
+        sudo docker run -dt --name htmlenv -p 3000:80 -v /root/mlops/task2_code:/var/www/html apache
+    else
+    	echo "webserver is running"
+    fi
+fi
+
